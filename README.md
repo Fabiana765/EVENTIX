@@ -153,8 +153,3 @@ Las operaciones de reserva, pago y emisión de entradas utilizarán transaccione
 - Cada entrada permite registrar un único ingreso exitoso.
 - Los permisos se verifican en el servidor.
 
-## Alcance
-
-El proyecto incluye el registro de usuarios, la administración de eventos, la configuración de funciones, la reserva y venta de entradas, el registro de pagos simulados y el control de ingreso.
-
-Los pagos por QR y tarjeta se simularán con fines académicos. Esta versión no incluye cobros bancarios reales ni almacenamiento de datos completos de tarjetas.
