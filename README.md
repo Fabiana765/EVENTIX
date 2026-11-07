@@ -1,246 +1,160 @@
-EVENTIX 🎟️
-Sistema de gestión de eventos, venta de entradas y control de acceso
-Asignatura: Base de Datos II
-Estado: Propuesta académica, pendiente de implementación.
-Integrantes: Por completar.
-Docente y universidad: Por completar.
-1. Descripción
-EVENTIX es una propuesta de aplicación web para organizar eventos, reservar y vender entradas y validar el ingreso de asistentes. Permitirá consultar eventos, seleccionar cupos o asientos, registrar pagos simulados y obtener entradas con códigos QR.
+# EVENTIX — Sistema de Gestión de Eventos y Venta de Entradas
 
-El proyecto se centrará en una base de datos relacional que garantice integridad, controle operaciones simultáneas y facilite reportes. La interfaz permitirá demostrar estas operaciones.
-2. Problema a resolver
-La gestión de entradas mediante hojas de cálculo y registros separados puede provocar ventas duplicadas, errores de disponibilidad y dificultades para verificar asistentes. Cuando varias personas intentan comprar el último cupo o el mismo asiento, una validación insuficiente puede generar sobreventas.
+## Descripción
 
-También se necesita impedir el uso repetido de una entrada y contar con información centralizada sobre ventas, ingresos y asistencia.
+EVENTIX es una plataforma web para gestionar eventos y vender entradas de forma organizada. Permite a los clientes registrarse con su correo electrónico, consultar eventos, seleccionar una función, elegir un sector o asiento y adquirir sus entradas.
 
-Pregunta del proyecto: ¿Cómo gestionar la venta de entradas y el acceso a eventos mediante una base de datos relacional que evite sobreventas, preserve la consistencia de las operaciones y facilite la generación de reportes?
-3. Objetivo general
-Desarrollar un sistema web de gestión de eventos, venta de entradas y control de acceso, sustentado en una base de datos relacional, que centralice la información, controle la disponibilidad de cupos y asientos, garantice la integridad de las transacciones y facilite el seguimiento de ventas y asistencia.
-4. Objetivos específicos
-1. Analizar los requisitos de compradores, organizadores y personal de acceso.
-2. Diseñar un modelo entidad-relación y un esquema normalizado hasta tercera forma normal.
-3. Implementar restricciones, funciones, procedimientos y transacciones para reservas y compras.
-4. Aplicar control de concurrencia para evitar sobreventas y asientos duplicados.
-5. Establecer permisos por rol y auditoría de operaciones críticas.
-6. Emitir entradas con identificadores únicos representados como códigos QR.
-7. Generar reportes mediante vistas y consultas avanzadas.
-8. Comprobar integridad, concurrencia y rendimiento mediante pruebas documentadas.
-5. Justificación
-El proyecto permite aplicar contenidos de Base de Datos II a un problema con reglas verificables: una compra debe confirmarse completa o revertirse, un asiento no puede venderse dos veces para la misma función y una entrada no puede permitir varios ingresos.
+El administrador puede gestionar eventos, funciones, recintos, sectores, asientos y usuarios, consultar las compras y los pagos, y validar las entradas al momento del ingreso.
 
-Su desarrollo integra normalización, transacciones, restricciones, triggers, vistas, índices, seguridad y recuperación de datos, con una aplicación demostrable en conciertos, conferencias y actividades universitarias.
-6. Alcance
-Primera versión
-- Usuarios y permisos por rol.
-- Eventos, recintos, sectores y funciones con fecha y horario.
-- Entradas generales por sector y entradas numeradas por asiento.
-- Reservas temporales y cancelación de reservas pendientes.
-- Compras de varias entradas para una misma función.
-- Pagos simulados en bolivianos (BOB).
-- Emisión de entradas y validación por QR o código.
-- Reportes y auditoría.
-Fuera del alcance
-- Cobros reales, integración bancaria y facturación fiscal.
-- Reventa y transferencia de entradas.
-- Aplicación móvil nativa y validación sin conexión.
-- Reembolsos automáticos y cancelación de funciones con ventas confirmadas.
-7. Usuarios del sistema
-Rol	Permisos
-Administrador	Gestionar usuarios y roles, supervisar el sistema y consultar auditoría.
-Organizador	Gestionar sus eventos, configurar funciones, asignar personal de acceso y consultar sus reportes.
-Comprador	Consultar eventos, reservar, comprar y acceder a sus propias entradas.
-Personal de acceso	Validar entradas de las funciones a las que esté asignado.
+El sistema controla la disponibilidad para evitar la sobreventa y la asignación duplicada de asientos. Además, registra las operaciones importantes para facilitar su seguimiento.
+
+El proyecto se desarrolla como parte de la materia Base de Datos II.
+
+## Problema a Resolver
+
+La venta de entradas mediante registros manuales o herramientas separadas puede generar duplicidad de asientos, errores en el control de cupos, dificultades para verificar pagos y demoras al validar el ingreso del público.
+
+También dificulta que los clientes consulten la disponibilidad y accedan a sus entradas desde un mismo lugar.
+
+EVENTIX busca centralizar estos procesos mediante una aplicación web y una base de datos relacional que mantenga la información organizada y consistente.
+
+## Objetivo General
+
+Desarrollar una plataforma web para gestionar eventos, funciones y venta de entradas, mediante una base de datos relacional que permita controlar la disponibilidad, registrar compras y pagos, y validar el ingreso de los asistentes.
+
+## Objetivos Específicos
+
+- Gestionar el registro y la autenticación de usuarios mediante correo electrónico y contraseña.
+- Establecer permisos diferenciados para los roles CLIENTE y ADMINISTRADOR.
+- Gestionar eventos y clasificarlos por categorías.
+- Administrar funciones, fechas, horarios y recintos.
+- Configurar sectores, precios, cupos y asientos disponibles por función.
+- Registrar compras y reservas, evitando la sobreventa y la asignación duplicada de asientos.
+- Registrar intentos de pago mediante QR o tarjeta en un entorno simulado.
+- Emitir entradas con códigos únicos después de aprobarse el pago.
+- Validar las entradas y registrar un único ingreso por cada una.
+- Registrar operaciones relevantes mediante una auditoría.
+- Aplicar restricciones de integridad, transacciones, funciones y triggers en PostgreSQL.
+
+## Tecnologías
+
+| Área | Tecnología | Uso |
+|---|---|---|
+| Frontend | HTML, CSS y JavaScript | Estructura, diseño e interacción de las páginas. |
+| Backend | PHP | Implementación de la lógica del servidor. |
+| Framework del backend | Laravel | Organización de la aplicación, rutas, validaciones y acceso a datos. |
+| Base de datos | PostgreSQL | Almacenamiento y gestión de la información relacional. |
 
 
-Los permisos se comprobarán en el servidor en cada operación.
-8. Requisitos funcionales
-Código	Requisito
-RF01	Registrar usuarios e iniciar y cerrar sesión.
-RF02	Asignar roles y verificar permisos.
-RF03	Crear eventos con nombre, descripción, categoría y organizador.
-RF04	Configurar funciones con recinto, fecha, horario y estado.
-RF05	Configurar sectores, precios, cupos y asientos antes de publicar.
-RF06	Buscar eventos publicados por nombre, categoría, lugar y fecha.
-RF07	Consultar disponibilidad por función y sector.
-RF08	Crear reservas temporales de entradas disponibles.
-RF09	Cancelar o vencer reservas y liberar recursos.
-RF10	Registrar intentos de pago simulado aprobados o rechazados.
-RF11	Confirmar compras y emitir entradas de manera transaccional.
-RF12	Generar un código único y su representación QR por entrada.
-RF13	Consultar compras y entradas propias.
-RF14	Validar entradas y registrar un único ingreso exitoso.
-RF15	Rechazar entradas inexistentes, utilizadas o de otra función.
-RF16	Generar reportes de ventas, disponibilidad y asistencia.
-RF17	Auditar operaciones críticas e intentos de acceso rechazados.
+## Roles del Sistema
 
+Cada usuario tiene un único rol.
 
-9. Requisitos no funcionales
-- Integridad: claves primarias, foráneas, restricciones de unicidad y validación de valores.
-- Atomicidad: una operación fallida no dejará compras o entradas parcialmente confirmadas.
-- Concurrencia: dos solicitudes simultáneas no podrán consumir el mismo asiento o último cupo.
-- Seguridad: contraseñas con hash seguro, consultas parametrizadas y credenciales fuera del repositorio.
-- Privacidad: acceso a compras y reportes limitado según propietario y rol.
-- Usabilidad: interfaz adaptable a computadoras y teléfonos.
-- Rendimiento: evaluar consultas frecuentes con al menos 10.000 entradas ficticias y documentar equipo, tiempos y planes de ejecución. Meta inicial: menos de dos segundos por consulta frecuente en el entorno de prueba.
-- Recuperación: documentar y comprobar una restauración desde un respaldo.
-- Mantenibilidad: separar interfaz, lógica de negocio y acceso a datos; versionar scripts SQL.
-Las metas de rendimiento deberán comprobarse; no representan resultados obtenidos.
-10. Reglas de negocio
-1. Cada evento pertenece a un organizador y puede tener varias funciones.
-2. La disponibilidad se controla por función; un asiento puede venderse para funciones diferentes.
-3. Los sectores pueden ser generales o numerados. Los numerados requieren asiento.
-4. Las reservas activas y ventas confirmadas no podrán superar el cupo habilitado.
-5. Cada asiento tendrá como máximo una asignación activa por función.
-6. Una compra pertenecerá a un comprador y contendrá entradas de una sola función.
-7. Las reservas durarán inicialmente 10 minutos, calculados con la hora del servidor.
-8. Una reserva vencida no podrá confirmarse, aunque aún no haya sido liberada por la tarea programada.
-9. El detalle conservará el precio de compra; los cambios posteriores de precio no modificarán ventas anteriores.
-10. Los importes se almacenarán como decimales exactos.
-11. Solo un pago simulado aprobado podrá confirmar una compra vigente.
-12. Repetir una confirmación no deberá duplicar pagos aprobados ni entradas.
-13. Cada entrada tendrá un código único no predecible y permitirá un solo ingreso exitoso.
-14. El acceso exigirá función correcta, horario habilitado y validador autorizado.
-15. Los registros con historial de ventas se conservarán; no se eliminarán físicamente.
-16. No se reducirá el cupo ni se modificará la distribución de asientos después de iniciar las ventas.
-11. Modelo de datos propuesto
-Tabla	Propósito y atributos principales
-usuarios	id, nombre, correo único, hash de contraseña, estado.
-roles	id y nombre único.
-usuario_roles	Asociación única entre usuario y rol.
-categorias	Clasificación de eventos.
-eventos	id, organizador_id, categoria_id, nombre, descripción.
-recintos	id, nombre, dirección, ciudad.
-sectores	id, recinto_id, nombre, capacidad física.
-asientos	id, sector_id, fila, número; ubicación única dentro del sector.
-funciones	id, evento_id, recinto_id, inicio, fin, horario de acceso, estado.
-funcion_sectores	id, funcion_id, sector_id, modalidad, precio, cupo, cantidad retenida; función-sector único.
-compras	id, comprador_id, funcion_id, estado, creación, vencimiento, total, clave de idempotencia única.
-detalle_compra	id, compra_id, funcion_sector_id, asiento_id opcional, precio_unitario; una fila por entrada.
-asignaciones_asiento	funcion_id, asiento_id, detalle_id; función-asiento único para reservas y ventas activas.
-pagos	id, compra_id, referencia única, monto, estado, fecha; varios intentos, máximo uno aprobado por compra.
-entradas	id, detalle_id único, código único, estado, fecha de emisión.
-asignaciones_acceso	Asociación única entre validador y función.
-accesos	id, entrada_id único, validador_id, fecha; solo ingresos exitosos.
-auditoria	id, actor_id, operación, entidad, referencia, fecha y cambios relevantes.
+### Cliente
 
+- Registrarse e iniciar sesión.
+- Consultar eventos y funciones disponibles.
+- Seleccionar sectores y asientos.
+- Realizar compras de entradas.
+- Elegir un método de pago.
+- Consultar sus compras y entradas.
 
-Relaciones y validaciones
-- Un organizador registra varios eventos; cada evento tiene varias funciones.
-- Un recinto contiene sectores y un sector puede contener asientos.
-- Una función habilita sectores mediante funcion_sectores.
-- Una compra contiene varios detalles y varios intentos de pago.
-- Cada detalle confirmado genera una entrada y cada entrada admite un único acceso exitoso.
-- El sector debe pertenecer al recinto de la función; el asiento debe pertenecer al sector seleccionado.
-- Todos los detalles deben corresponder a la función de la compra.
-Se elaborará el diagrama entidad-relación y el diccionario de datos antes de implementar. Si se almacenan datos derivados, como total o cantidad retenida, deberán mantenerse dentro de las transacciones y verificarse con consultas de conciliación.
-12. Aplicación de Base de Datos II
-Contenido	Aplicación
-Normalización	Separar entidades y reducir redundancias.
-Restricciones	Impedir códigos duplicados, referencias inválidas e importes incorrectos.
-Procedimientos o funciones	Reservar, confirmar, cancelar, liberar reservas y validar acceso.
-Transacciones	Confirmar pago simulado, compra y entradas como unidad.
-Control de concurrencia	Proteger cupos y asignaciones de asientos mediante bloqueos y unicidad.
-Triggers	Auditar cambios críticos y validar transiciones cuando corresponda.
-Vistas	Consultar ventas, disponibilidad y asistencia.
-Índices	Agilizar búsquedas por fecha, función, comprador y código.
-Consultas avanzadas	Agrupaciones, subconsultas, CTE y funciones de ventana.
-Seguridad	Roles de aplicación y privilegios limitados de conexión.
-Respaldo	Generación y restauración comprobada de copias.
+### Administrador
 
+- Administrar usuarios.
+- Gestionar categorías y eventos.
+- Configurar recintos, sectores y asientos.
+- Crear funciones y establecer sus horarios.
+- Definir precios y cupos por sector.
+- Consultar compras y pagos.
+- Validar entradas y registrar el ingreso.
+- Consultar los registros de auditoría.
 
-El vencimiento de reservas requerirá una tarea programada u operación explícita: un trigger no se ejecuta por el simple paso del tiempo.
-13. Operaciones críticas
-Reservar
-Iniciar una transacción, comprobar que la función admite ventas y bloquear los sectores afectados en un orden consistente. Verificar cupos y asientos, registrar compra pendiente y detalles, crear asignaciones y actualizar la cantidad retenida. Confirmar todos los cambios o revertirlos ante un error.
-Confirmar compra
-Bloquear la compra y comprobar propietario, estado y vencimiento. Si ya está confirmada, devolver el resultado existente. En caso contrario, registrar el pago simulado aprobado, confirmar la compra y emitir sus entradas en una sola transacción.
-Cancelar o vencer
-Bloquear la compra pendiente y sus recursos, cambiar su estado, liberar asignaciones de asientos y disminuir la cantidad retenida. Repetir la operación no deberá liberar cupos dos veces.
-Validar ingreso
-Comprobar código, función, horario y permisos. Bloquear la entrada, verificar que no esté utilizada, registrar el acceso y actualizar su estado en una sola transacción.
-14. Estados
-Entidad	Estados
-Función	BORRADOR, PUBLICADA, CERRADA, FINALIZADA, CANCELADA.
-Compra	PENDIENTE, CONFIRMADA, CANCELADA, VENCIDA.
-Pago simulado	APROBADO, RECHAZADO.
-Entrada	EMITIDA, UTILIZADA.
+El registro público asigna automáticamente el rol CLIENTE. La cuenta inicial de ADMINISTRADOR se crea durante la configuración del sistema.
 
+## Funcionalidades Principales
 
-Una compra pendiente puede confirmarse, cancelarse o vencer. Una confirmada no vuelve a pendiente. Un pago rechazado permite reintentar mientras la reserva siga vigente. Una función cerrada no vende, pero puede admitir accesos durante el horario habilitado. Solo se cancelarán funciones sin ventas confirmadas, liberando sus reservas pendientes.
-15. Reportes
-- Entradas vendidas e ingresos simulados por evento y función.
-- Cupos libres, reservas vigentes y ventas por sector.
-- Porcentaje de ocupación de venta.
-- Asistencia efectiva y entradas sin utilizar.
-- Ventas por día y categoría.
-- Ranking de eventos por entradas vendidas.
-- Reservas vencidas y canceladas.
-- Historial de compras por usuario.
-- Auditoría y accesos rechazados.
-Los ingresos se calcularán a partir de pagos aprobados de compras confirmadas, evitando multiplicar importes al unir varios detalles. Ocupación de venta y asistencia serán métricas diferentes.
-16. Arquitectura y tecnologías propuestas
-Se propone una arquitectura de tres capas: interfaz web, lógica de negocio y persistencia relacional.
-Componente	Propuesta
-Base de datos	PostgreSQL.
-Backend	Python con Django.
-Interfaz	Plantillas de Django, HTML, CSS y JavaScript.
-Versionamiento	Git y GitHub.
-Entradas	QR validado contra el servidor.
-Pagos	Simulación interna sin dinero real.
+### Registro e inicio de sesión
 
+Las cuentas se almacenan en la tabla USUARIO. El correo es único y las contraseñas se almacenan como hash.
 
-Las versiones y dependencias exactas se definirán al implementar el proyecto.
-17. Estructura prevista del repositorio
-Ruta	Contenido
-README.md	Especificación del proyecto.
-docs/	Diagramas, requisitos, diccionario de datos y evidencias.
-database/schema/	Tablas y restricciones.
-database/functions/	Procedimientos y funciones.
-database/triggers/	Auditoría y validaciones.
-database/views/	Vistas y reportes.
-database/seeds/	Datos ficticios de prueba.
-src/	Aplicación web.
-tests/	Pruebas de integridad, funcionalidad y concurrencia.
+### Gestión de eventos y funciones
 
+Cada evento pertenece a una categoría y puede tener varias funciones. Cada función establece una fecha, un horario y un recinto.
 
-Esta estructura es propuesta y no implica que las carpetas ya existan.
-18. Criterios de aceptación
-Prueba	Resultado esperado
-Dos usuarios reservan el mismo asiento simultáneamente.	Solo uno obtiene la reserva.
-Dos solicitudes compiten por el último cupo.	Solo una reserva se acepta.
-Falla la emisión de una entrada durante la confirmación.	Toda la confirmación se revierte.
-Se repite una confirmación.	No se duplican pagos ni entradas.
-Se intenta confirmar una reserva vencida.	La operación se rechaza.
-Se ejecuta dos veces la liberación de una reserva.	El cupo se libera una sola vez.
-Dos validadores escanean una entrada simultáneamente.	Solo se registra un ingreso exitoso.
-Se presenta una entrada de otra función.	Se rechaza el acceso.
-Se consulta una compra o evento sin autorización.	Se deniega la operación.
-Se generan reportes con datos conocidos.	Los totales coinciden con los resultados esperados.
-Se restaura un respaldo.	Se recuperan estructura y datos y se verifican mediante consultas.
+### Disponibilidad de sectores y asientos
 
+Los sectores disponibles se configuran por función, con su modalidad, precio y cupo.
 
-19. Plan de desarrollo
-1. Requisitos y casos de uso.
-2. Modelo entidad-relación, normalización y diccionario de datos.
-3. Esquema SQL y datos ficticios.
-4. Operaciones transaccionales, auditoría y reportes.
-5. Interfaz web e integración.
-6. Pruebas de integridad, permisos, concurrencia y rendimiento.
-7. Documentación, respaldo y demostración final.
-20. Entregables
-- README del proyecto.
-- Diagramas y diccionario de datos.
-- Scripts SQL versionados y datos ficticios.
-- Código de la aplicación web.
-- Pruebas y evidencias.
-- Manual de instalación y uso.
-- Respaldo y evidencia de restauración.
-21. Instalación y ejecución
-Pendiente de implementación. Este README describe una propuesta y no afirma que exista una aplicación ejecutable.
+Para sectores numerados, el sistema controla la asignación de asientos. Para sectores generales, controla la cantidad de entradas disponibles.
 
-Cuando se implemente, se documentarán versiones, dependencias, variables de entorno, creación de la base de datos, carga de datos ficticios y comandos para iniciar la aplicación y ejecutar pruebas. No se publicarán credenciales en el repositorio.
-22. Resultado esperado
-Un prototipo funcional que gestione la publicación de funciones, la compra de entradas y el ingreso de asistentes, demostrando mediante pruebas que no se producen sobreventas, entradas duplicadas ni múltiples ingresos con el mismo código.
-23. Autoría y licencia
-Integrantes y enlace del repositorio: Por completar.
-Licencia: Por definir por los autores antes de autorizar su reutilización.
+### Compras y reservas
+
+Una compra corresponde a un cliente y a una función. Puede incluir varias entradas, representadas individualmente en DETALLE_COMPRA.
+
+Las reservas tienen un plazo de vencimiento. Si no se completa el pago, se liberan los asientos y el cupo retenido.
+
+### Pagos
+
+Se registran los intentos de pago mediante QR o tarjeta, indicando su referencia, monto y estado.
+
+Una compra puede tener varios intentos, pero solo uno aprobado.
+
+### Emisión de entradas
+
+Después de aprobarse el pago, se generan las entradas con códigos únicos para su consulta y validación.
+
+### Control de acceso
+
+El administrador verifica la entrada y registra el ingreso. El sistema impide registrar un segundo ingreso exitoso con la misma entrada.
+
+### Auditoría
+
+Se registran operaciones relevantes para facilitar el seguimiento de las acciones realizadas en la plataforma.
+
+## Base de Datos
+
+El modelo está compuesto por 17 tablas:
+
+1. ROL
+2. USUARIO
+3. CATEGORIA
+4. EVENTO
+5. RECINTO
+6. SECTOR
+7. ASIENTO
+8. FUNCION
+9. FUNCION_SECTOR
+10. COMPRA
+11. DETALLE_COMPRA
+12. ASIGNACION_ASIENTO
+13. METODO_PAGO
+14. PAGO
+15. ENTRADA
+16. ACCESO
+17. AUDITORIA
+
+Se utilizarán claves primarias, claves foráneas, restricciones de unicidad y validaciones para mantener la integridad de los datos.
+
+Las operaciones de reserva, pago y emisión de entradas utilizarán transacciones para evitar registros incompletos y conflictos entre compras simultáneas.
+
+## Reglas de Negocio
+
+- Cada usuario tiene un único rol: CLIENTE o ADMINISTRADOR.
+- El correo electrónico no puede repetirse.
+- Cada evento tiene un administrador responsable.
+- Una compra corresponde a una sola función.
+- Cada detalle de compra representa una entrada.
+- El mismo asiento no puede asignarse dos veces para la misma función.
+- Las entradas generales no requieren un asiento numerado.
+- Las reservas vencidas o canceladas liberan su disponibilidad.
+- Una compra admite como máximo un pago aprobado.
+- Las entradas se emiten después de aprobarse el pago.
+- Cada entrada permite registrar un único ingreso exitoso.
+- Los permisos se verifican en el servidor.
+
+## Alcance
+
+El proyecto incluye el registro de usuarios, la administración de eventos, la configuración de funciones, la reserva y venta de entradas, el registro de pagos simulados y el control de ingreso.
+
+Los pagos por QR y tarjeta se simularán con fines académicos. Esta versión no incluye cobros bancarios reales ni almacenamiento de datos completos de tarjetas.
